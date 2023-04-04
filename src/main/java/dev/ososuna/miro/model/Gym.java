@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -21,10 +22,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name="gym")
-public class Gym {
+public class Gym extends AbstractModificationAttributesEntity {
  
   @JoinColumn(name="section_id", nullable=false)
-  @OneToMany
+  @ManyToOne
   private Section section;
 
   @JsonBackReference(value="reservations")
