@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SectionUtil {
   
-  private SectionRepository sectionRepository;
+  private final SectionRepository sectionRepository;
 
   public Section getSectionById(int id) throws NotFoundException {
     return sectionRepository.findByIdAndActiveTrue(Long.valueOf(id)).orElseThrow(() -> new NotFoundException("Section not found"));

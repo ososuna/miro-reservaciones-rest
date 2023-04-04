@@ -12,12 +12,10 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ResidentUtil {
 
-  private final ResidentRepository residentRepository;
+  private final ResidentRepository residentRepository;  
 
   public Resident getResidentByEmail(String email) throws NotFoundException {
-    return residentRepository.findByEmailAndActiveTrue(email).orElseThrow(
-      () -> new NotFoundException("Resident not found")
-    );
+    return residentRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new NotFoundException("Resident not found"));
   }
 
   public ResidentDto transformResidentToResidentDto(Resident resident) {
@@ -26,6 +24,7 @@ public class ResidentUtil {
       .firstName(resident.getFirstName())
       .lastName(resident.getLastName())
       .email(resident.getEmail())
+      .section(resident.getSection().getId().intValue())
       .role(resident.getRole().name())
       .build();
     return residentDto;
