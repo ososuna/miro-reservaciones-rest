@@ -9,12 +9,12 @@ spring:
     username: ${db_user:root}
     password: ${db_password:root}
   jpa:
-    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: ${db_ddl_auto:none}
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.MySQL5Dialect
+        dialect: org.hibernate.dialect.MySQLDialect
         temp:
           use-jdbc-metadata: false
         ddl_auto: ${db_ddl_auto:none}
