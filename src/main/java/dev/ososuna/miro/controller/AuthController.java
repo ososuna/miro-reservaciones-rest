@@ -30,7 +30,7 @@ public class AuthController {
   }
   
   @PostMapping("/register")
-  public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) throws BadRequestException {
+  public ResponseEntity<AuthResponseDto> register(@RequestBody RegisterRequestDto registerRequestDto) throws BadRequestException, NotFoundException {
     return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequestDto));
   }
 

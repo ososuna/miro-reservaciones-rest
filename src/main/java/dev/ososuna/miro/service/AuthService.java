@@ -16,6 +16,7 @@ import dev.ososuna.miro.model.enums.Role;
 import dev.ososuna.miro.repository.ResidentRepository;
 import dev.ososuna.miro.util.JwtUtil;
 import dev.ososuna.miro.util.ResidentUtil;
+import dev.ososuna.miro.util.SectionUtil;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -28,6 +29,7 @@ public class AuthService {
   private final JwtUtil jwtUtil;
   private final ResidentUtil residentUtil;
   private final ResidentRepository residentRepository;
+  private final SectionUtil sectionUtil;
 
   public AuthResponseDto login(LoginRequestDto request) {
     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
@@ -39,18 +41,20 @@ public class AuthService {
       .build();
   }
 
-  public AuthResponseDto register(RegisterRequestDto request) throws BadRequestException {
+  public AuthResponseDto register(RegisterRequestDto request) throws BadRequestException, NotFoundException {
     if (request.getPassword().length() < 6) {
       throw new BadRequestException("Password must be at least 6 characters long");
     }
     if (residentRepository.existsByEmailAndActiveTrue(request.getEmail())) {
       throw new BadRequestException("Email already exists");
     }
+
     var resident = Resident.builder()
       .firstName(request.getFirstName())
       .lastName(request.getLastName())
       .email(request.getEmail())
       .password(passwordEncoder.encode(request.getPassword()))
+      .section(sectionUtil.getSectionById(request.getSection()))
       .role(Role.ROLE_USER)
       .build();
     resident.setActive(true);
