@@ -1,7 +1,9 @@
 package dev.ososuna.miro.model;
 
 import java.time.LocalDate;
-import java.util.UUID;
+
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -18,18 +20,20 @@ import lombok.NoArgsConstructor;
 public abstract class AbstractModificationAttributesEntity extends AbstractSimpleEntity {
 
   @Column(name="created_by")
-  private UUID createdBy;
+  private Long createdBy;
 
   @Column(name="updated_by")
-  private UUID updatedBy;
+  private Long updatedBy;
 
   @Column(name="created_date")
+  @CreatedDate
   private LocalDate createdDate;
 
   @Column(name="updated_date")
+  @LastModifiedDate
   private LocalDate updatedDate;
 
   @Column(name="active")
-  private boolean active;
+  private boolean active = true;
 
 }
