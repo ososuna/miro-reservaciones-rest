@@ -36,7 +36,8 @@ public class ReservationService {
       .resident(resident)
       .gym(resident.getSection().getGym())
       .build();
-    sessionUtil.setCreatedBy(resident);
+    sessionUtil.setCreatedBy(reservation);
+    sessionUtil.setUpdatedBy(reservation);
     return reservationRepository.save(reservation);
   }
   

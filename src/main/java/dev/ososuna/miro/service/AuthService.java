@@ -58,8 +58,10 @@ public class AuthService {
       .section(sectionUtil.getSectionById(request.getSection()))
       .role(Role.ROLE_USER)
       .build();
-    resident.setActive(true);
     var savedUser = residentRepository.save(resident);
+    resident.setCreatedBy(resident.getId());
+    resident.setUpdatedBy(resident.getId());
+    residentRepository.save(resident);
     var jwt = jwtUtil.generateToken(resident, propertiesConfig.getJwtAccessExpirationMs());
     return AuthResponseDto.builder()
       .token(jwt)

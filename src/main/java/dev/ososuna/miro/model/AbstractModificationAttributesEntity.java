@@ -2,8 +2,8 @@ package dev.ososuna.miro.model;
 
 import java.time.LocalDate;
 
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.MappedSuperclass;
@@ -26,11 +26,11 @@ public abstract class AbstractModificationAttributesEntity extends AbstractSimpl
   private Long updatedBy;
 
   @Column(name="created_date")
-  @CreatedDate
+  @CreationTimestamp
   private LocalDate createdDate;
 
   @Column(name="updated_date")
-  @LastModifiedDate
+  @UpdateTimestamp
   private LocalDate updatedDate;
 
   @Column(name="active")
