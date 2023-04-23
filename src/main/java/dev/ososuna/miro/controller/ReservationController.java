@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -24,7 +25,7 @@ public class ReservationController {
   private final ReservationService reservationService;
 
   @PostMapping
-  public ResponseEntity<Reservation> reserve(ReserveRequestDto request) throws NotFoundException {
+  public ResponseEntity<Reservation> reserve(@RequestBody ReserveRequestDto request) throws NotFoundException {
     return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.reserve(request));
   }
 
