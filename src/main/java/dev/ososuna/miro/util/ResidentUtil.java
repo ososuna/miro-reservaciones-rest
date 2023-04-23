@@ -18,6 +18,10 @@ public class ResidentUtil {
     return residentRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new NotFoundException("Resident not found"));
   }
 
+  public Resident getResidentById(Long id) throws NotFoundException {
+    return residentRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new NotFoundException("Resident not found"));
+  }
+
   public ResidentDto transformResidentToResidentDto(Resident resident) {
     var residentDto = ResidentDto.builder()
       .id(resident.getId().toString())
