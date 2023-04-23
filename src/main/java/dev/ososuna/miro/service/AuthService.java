@@ -17,6 +17,7 @@ import dev.ososuna.miro.repository.ResidentRepository;
 import dev.ososuna.miro.util.JwtUtil;
 import dev.ososuna.miro.util.ResidentUtil;
 import dev.ososuna.miro.util.SectionUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -67,15 +68,20 @@ public class AuthService {
   }
 
   public AuthResponseDto refreshToken(String token) throws NotFoundException, BadRequestException {
-    var email = jwtUtil.extractUsername(token);
-    var resident = residentUtil.getResidentByEmail(email);
-    if (!jwtUtil.isTokenValid(token, resident)) {
-      token = jwtUtil.generateToken(resident, propertiesConfig.getJwtAccessExpirationMs());
+    try {
+      var email = jwtUtil.extractUsername(token);
+      var resident = residentUtil.getResidentByEmail(email);
+      if (!jwtUtil.isTokenValid(token, resident)) {
+        token = jwtUtil.generateToken(resident, propertiesConfig.getJwtAccessExpirationMs());
+      }
+      return AuthResponseDto.builder()
+        .token(token)
+        .resident(residentUtil.transformResidentToResidentDto(resident))
+        .build();
+    } catch (ExpiredJwtException e) {
+      throw new BadRequestException(e.getMessage());
     }
-    return AuthResponseDto.builder()
-      .token(token)
-      .resident(residentUtil.transformResidentToResidentDto(resident))
-      .build();
+   
   }
 
   public Boolean verifyToken(String token) throws NotFoundException, BadRequestException {
