@@ -22,20 +22,26 @@ public class ReservationUtil {
 
   public AvailableHoursResponseDto getTotalAvailableHoursForToday() {
     List<AvailableHourDto> availableHours = new ArrayList<>();
+    var currentDate = LocalDate.now();
     var now = LocalTime.now();
     var start = LocalTime.of(6, 0);
     var end = LocalTime.of(23, 0);
     while (start.isBefore(end)) {
       if (start.isAfter(now)) {
-        availableHours.add(new AvailableHourDto(start.toString(), start.plusHours(1).toString()));
+        var exists = reservationRepository.existsByDayAndStartTimeAndEndTime(currentDate, start, start.plusHours(1));
+        if (!exists) {
+          availableHours.add(new AvailableHourDto(start.toString(), start.plusHours(1).toString()));
+        }
       }
       start = start.plusHours(1);
     }
     return AvailableHoursResponseDto.builder()
-      .day(LocalDate.now().toString())
+      .day(currentDate.toString())
       .availableHours(availableHours)
       .build();
   }
+
+
   
   public void validateUniqueReservation(ReserveRequestDto reservation) throws BadRequestException {
     var exists = reservationRepository.existsByDayAndStartTimeAndEndTime(
