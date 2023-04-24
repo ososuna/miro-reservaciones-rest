@@ -1,7 +1,5 @@
 package dev.ososuna.miro.controller;
 
-import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import dev.ososuna.miro.exception.BadRequestException;
 import dev.ososuna.miro.exception.NotFoundException;
 import dev.ososuna.miro.model.Reservation;
-import dev.ososuna.miro.model.dto.AvailableHourDto;
+import dev.ososuna.miro.model.dto.AvailableHoursResponseDto;
 import dev.ososuna.miro.model.dto.ReserveRequestDto;
 import dev.ososuna.miro.service.ReservationService;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +29,7 @@ public class ReservationController {
   }
 
   @GetMapping("/available-hours")
-  public ResponseEntity<List<AvailableHourDto>> getAvailableHours() {
+  public ResponseEntity<AvailableHoursResponseDto> getAvailableHours() {
     return ResponseEntity.ok(reservationService.getAvailableHours());
   }
 }
