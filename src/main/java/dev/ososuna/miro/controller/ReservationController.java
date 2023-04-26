@@ -29,7 +29,7 @@ public class ReservationController {
   }
 
   @GetMapping("/available-hours")
-  public ResponseEntity<AvailableHoursResponseDto> getAvailableHours() {
-    return ResponseEntity.ok(reservationService.getAvailableHours());
+  public ResponseEntity<AvailableHoursResponseDto> getAvailableHours(@RequestBody String date) throws BadRequestException {
+    return ResponseEntity.ok(reservationService.getAvailableHours(date));
   }
 }

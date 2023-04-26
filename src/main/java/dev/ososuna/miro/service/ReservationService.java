@@ -2,8 +2,11 @@ package dev.ososuna.miro.service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.stereotype.Service;
 
@@ -28,23 +31,25 @@ public class ReservationService {
   private final SessionUtil sessionUtil;
   private final ReservationRepository reservationRepository;
 
-  public AvailableHoursResponseDto getAvailableHours() {
+  public AvailableHoursResponseDto getAvailableHours(String date) throws BadRequestException {
     List<AvailableHourDto> availableHours = new ArrayList<>();
+    var givenDate = LocalDate.parse(date);
     var currentDate = LocalDate.now();
+    if (givenDate.isBefore(currentDate)) {
+      throw new BadRequestException("You can't reserve a day before today");
+    }
     var now = LocalTime.now();
     var start = LocalTime.of(6, 0);
     var end = LocalTime.of(23, 0);
-    while (start.isBefore(end)) {
-      if (start.isAfter(now)) {
-        var exists = reservationRepository.existsByDayAndStartTimeAndEndTime(currentDate, start, start.plusHours(1));
-        if (!exists) {
-          availableHours.add(new AvailableHourDto(start.toString(), start.plusHours(1).toString()));
-        }
-      }
-      start = start.plusHours(1);
-    }
+    availableHours.addAll(
+      Stream.iterate(start, d -> d.plusHours(1))
+          .limit(ChronoUnit.HOURS.between(start, end))
+          .filter(d -> !givenDate.equals(currentDate) || d.isAfter(now))
+          .filter(d -> !reservationRepository.existsByDayAndStartTimeAndEndTime(givenDate, d, d.plusHours(1)))
+          .map(d -> new AvailableHourDto(d.toString(), d.plusHours(1).toString()))
+          .collect(Collectors.toList()));
     return AvailableHoursResponseDto.builder()
-      .day(currentDate.toString())
+      .day(givenDate.toString())
       .availableHours(availableHours)
       .build();
   }
