@@ -3,6 +3,7 @@ package dev.ososuna.miro.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,8 +29,8 @@ public class ReservationController {
     return ResponseEntity.status(HttpStatus.CREATED).body(reservationService.reserve(request));
   }
 
-  @GetMapping("/available-hours")
-  public ResponseEntity<AvailableHoursResponseDto> getAvailableHours(@RequestBody String date) throws BadRequestException {
+  @GetMapping("/available-hours/{date}")
+  public ResponseEntity<AvailableHoursResponseDto> getAvailableHours(@PathVariable String date) throws BadRequestException {
     return ResponseEntity.ok(reservationService.getAvailableHours(date));
   }
 }
