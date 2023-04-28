@@ -15,6 +15,7 @@ import dev.ososuna.miro.exception.NotFoundException;
 import dev.ososuna.miro.model.Reservation;
 import dev.ososuna.miro.model.dto.AvailableHourDto;
 import dev.ososuna.miro.model.dto.AvailableHoursResponseDto;
+import dev.ososuna.miro.model.dto.ReservationDto;
 import dev.ososuna.miro.model.dto.ReserveRequestDto;
 import dev.ososuna.miro.repository.ReservationRepository;
 import dev.ososuna.miro.util.ReservationUtil;
@@ -67,6 +68,14 @@ public class ReservationService {
     sessionUtil.setCreatedBy(reservation);
     sessionUtil.setUpdatedBy(reservation);
     return reservationRepository.save(reservation);
+  }
+
+  public List<ReservationDto> getMyReservations() throws NotFoundException {
+    return reservationUtil.getReservationsByResidentId(sessionUtil.getLoggedUserId()).stream()
+      .filter(reservation -> reservation.getDay().isAfter(LocalDate.now()) || 
+        (reservation.getDay().isEqual(LocalDate.now()) && reservation.getEndTime().isAfter(LocalTime.now())))
+      .map(reservationUtil::transformReservationToDto)
+      .collect(Collectors.toList());
   }
   
 }
