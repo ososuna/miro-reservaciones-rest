@@ -10,9 +10,9 @@
 	</parent>
 	<groupId>dev.ososuna</groupId>
 	<artifactId>miro</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>miro</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Miro reservaciones</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
