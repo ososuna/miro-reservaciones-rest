@@ -44,10 +44,10 @@ public class AuthService {
 
   public AuthResponseDto register(RegisterRequestDto request) throws BadRequestException, NotFoundException {
     if (request.getPassword().length() < 6) {
-      throw new BadRequestException("Password must be at least 6 characters long");
+      throw new BadRequestException("La contraseña debe tener al menos 6 caracteres");
     }
     if (residentRepository.existsByEmailAndActiveTrue(request.getEmail())) {
-      throw new BadRequestException("Email already exists");
+      throw new BadRequestException("El email ya está registrado");
     }
 
     var resident = Resident.builder()

@@ -15,11 +15,11 @@ public class ResidentUtil {
   private final ResidentRepository residentRepository;  
 
   public Resident getResidentByEmail(String email) throws NotFoundException {
-    return residentRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new NotFoundException("Resident not found"));
+    return residentRepository.findByEmailAndActiveTrue(email).orElseThrow(() -> new NotFoundException("El residente no existe"));
   }
 
   public Resident getResidentById(Long id) throws NotFoundException {
-    return residentRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new NotFoundException("Resident not found"));
+    return residentRepository.findByIdAndActiveTrue(id).orElseThrow(() -> new NotFoundException("El residente no existe"));
   }
 
   public ResidentDto transformResidentToResidentDto(Resident resident) {

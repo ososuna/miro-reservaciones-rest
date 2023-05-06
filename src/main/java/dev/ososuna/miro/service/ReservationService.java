@@ -37,7 +37,7 @@ public class ReservationService {
     var givenDate = LocalDate.parse(date);
     var currentDate = LocalDate.now();
     if (givenDate.isBefore(currentDate)) {
-      throw new BadRequestException("You can't reserve a day before today");
+      throw new BadRequestException("No puedes reservar en una fecha pasada");
     }
     var now = LocalTime.now();
     var start = LocalTime.of(6, 0);

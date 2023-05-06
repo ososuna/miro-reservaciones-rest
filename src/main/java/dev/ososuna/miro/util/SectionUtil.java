@@ -14,7 +14,7 @@ public class SectionUtil {
   private final SectionRepository sectionRepository;
 
   public Section getSectionById(int id) throws NotFoundException {
-    return sectionRepository.findByIdAndActiveTrue(Long.valueOf(id)).orElseThrow(() -> new NotFoundException("Section not found"));
+    return sectionRepository.findByIdAndActiveTrue(Long.valueOf(id)).orElseThrow(() -> new NotFoundException("La sección no existe"));
   }
 
 }

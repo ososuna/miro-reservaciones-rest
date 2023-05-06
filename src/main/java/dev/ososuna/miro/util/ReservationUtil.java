@@ -27,7 +27,7 @@ public class ReservationUtil {
       LocalTime.parse(reservation.getStartTime()),
       LocalTime.parse(reservation.getEndTime()));
     if (exists) {
-      throw new BadRequestException("Reservation already exists");
+      throw new BadRequestException("La reserva ya existe");
     } 
   }
 
