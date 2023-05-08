@@ -1,8 +1,5 @@
 package dev.ososuna.miro.configuration;
 
-import java.time.Clock;
-import java.util.TimeZone;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
-  
+
   private final ResidentRepository residentRepository;
 
   @Bean
@@ -45,10 +42,5 @@ public class ApplicationConfig {
   @Bean
   PasswordEncoder passwordEncoder() {
     return new BCryptPasswordEncoder();
-  }
-
-  @Bean
-  Clock clock() {
-    return Clock.system(TimeZone.getTimeZone("America/Mexico_City").toZoneId());
   }
 }
